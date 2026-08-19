@@ -22,10 +22,7 @@ export function ZoomableImage({ src, alt, className, imgClassName }: ZoomableIma
 
   return (
     <div
-      className={cn(
-        'relative flex h-[50vh] items-center justify-center overflow-hidden rounded-lg bg-black/30 sm:h-[64vh]',
-        className,
-      )}
+      className={cn('relative inline-flex overflow-hidden rounded-xl', className)}
       onMouseMove={handleMove}
       onMouseLeave={() => setOrigin('50% 50%')}
       onDoubleClick={() => setZoomed(false)}
@@ -34,11 +31,14 @@ export function ZoomableImage({ src, alt, className, imgClassName }: ZoomableIma
         src={src}
         alt={alt}
         draggable={false}
-        onClick={() => setZoomed((value) => !value)}
+        onClick={(event) => {
+          event.stopPropagation()
+          setZoomed((value) => !value)
+        }}
         style={{ transformOrigin: origin }}
         className={cn(
-          'max-h-full max-w-full select-none object-contain transition-transform duration-300 ease-out',
-          zoomed ? 'scale-[2.4] cursor-zoom-out' : 'cursor-zoom-in',
+          'max-h-[78vh] max-w-[92vw] select-none object-contain transition-transform duration-300 ease-out',
+          zoomed ? 'scale-[2.6] cursor-zoom-out' : 'cursor-zoom-in',
           imgClassName,
         )}
       />
