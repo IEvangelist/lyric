@@ -64,6 +64,17 @@ export const captures: Capture[] = [
     video: `${BASE}media/moon.mp4`,
     kind: 'video',
   },
+  {
+    id: 'sun',
+    title: 'The Sun',
+    subtitle: 'Our star · filmed live',
+    description:
+      'Our nearest star, filmed live through the eyepiece: a churning sphere of plasma about 93 million miles away.',
+    image: `${BASE}media/sun-poster.jpg`,
+    poster: `${BASE}media/sun-poster.jpg`,
+    video: `${BASE}media/sun.mp4`,
+    kind: 'video',
+  },
 ]
 
 export const strokes = [

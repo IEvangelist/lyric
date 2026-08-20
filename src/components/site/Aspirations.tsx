@@ -11,15 +11,25 @@ const roadmap = [
 export function Aspirations() {
   return (
     <Section id="goals" title="Aiming for astrophysics">
-      <Reveal className="mx-auto max-w-3xl">
-        <figure className="rounded-2xl border border-white/10 bg-card/50 px-6 py-10 backdrop-blur-sm sm:px-12">
-          <blockquote className="text-center text-2xl font-medium text-balance sm:text-3xl">
-            “The cosmos is within us. We are made of star-stuff.”
-          </blockquote>
-          <figcaption className="mt-4 text-center text-sm text-muted-foreground">
-            Carl Sagan
-          </figcaption>
-        </figure>
+      <Reveal className="mx-auto max-w-4xl">
+        <div className="grid gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 sm:grid-cols-2">
+          <figure className="bg-card/50 px-6 py-9 text-center backdrop-blur-sm sm:px-8 sm:py-11">
+            <blockquote className="text-lg font-medium text-balance sm:text-xl">
+              “The cosmos is within us. We are made of star-stuff.”
+            </blockquote>
+            <figcaption className="mt-4 text-sm font-medium">
+              Carl Sagan <span className="text-muted-foreground">· Astronomer</span>
+            </figcaption>
+          </figure>
+          <figure className="bg-card/50 px-6 py-9 text-center backdrop-blur-sm sm:px-8 sm:py-11">
+            <blockquote className="text-lg font-medium text-balance sm:text-xl">
+              “The universe is under no obligation to make sense to you.”
+            </blockquote>
+            <figcaption className="mt-4 text-sm font-medium">
+              Neil deGrasse Tyson <span className="text-muted-foreground">· Astrophysicist</span>
+            </figcaption>
+          </figure>
+        </div>
       </Reveal>
 
       <div className="mt-14 grid gap-8 sm:grid-cols-3">
@@ -41,17 +51,6 @@ export function Aspirations() {
           </Reveal>
         ))}
       </div>
-
-      <Reveal className="mx-auto mt-16 max-w-3xl">
-        <figure className="border-l-2 border-primary/50 pl-6">
-          <blockquote className="text-lg text-pretty text-foreground/90 sm:text-xl">
-            “The universe is under no obligation to make sense to you.”
-          </blockquote>
-          <figcaption className="mt-3 text-sm font-medium">
-            Neil deGrasse Tyson <span className="text-muted-foreground">· Astrophysicist</span>
-          </figcaption>
-        </figure>
-      </Reveal>
     </Section>
   )
 }
