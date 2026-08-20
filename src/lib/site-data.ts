@@ -1,5 +1,7 @@
 import lagoon from '@/assets/lagoon-nebula-m8.jpg'
 import veil from '@/assets/veil-nebula.jpg'
+import dumbbell from '@/assets/dumbbell-nebula-m27.jpg'
+import blackEye from '@/assets/black-eye-galaxy-m64.jpg'
 
 const BASE = import.meta.env.BASE_URL
 
@@ -31,6 +33,24 @@ export const captures: Capture[] = [
     description:
       'The delicate, wispy shockwave left behind by a star that exploded thousands of years ago, still expanding across the sky.',
     image: veil,
+    kind: 'image',
+  },
+  {
+    id: 'dumbbell',
+    title: 'Dumbbell Nebula',
+    subtitle: 'Messier 27 · Vulpecula',
+    description:
+      'A planetary nebula about 1,360 light-years away, the glowing gas shell cast off by a dying Sun-like star.',
+    image: dumbbell,
+    kind: 'image',
+  },
+  {
+    id: 'black-eye',
+    title: 'Black Eye Galaxy',
+    subtitle: 'Messier 64 · Coma Berenices',
+    description:
+      'A spiral galaxy roughly 17 million light-years away, named for the dark band of dust sweeping across its bright core.',
+    image: blackEye,
     kind: 'image',
   },
   {

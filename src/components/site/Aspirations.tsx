@@ -41,6 +41,17 @@ export function Aspirations() {
           </Reveal>
         ))}
       </div>
+
+      <Reveal className="mx-auto mt-16 max-w-3xl">
+        <figure className="border-l-2 border-primary/50 pl-6">
+          <blockquote className="text-lg text-pretty text-foreground/90 sm:text-xl">
+            “The universe is under no obligation to make sense to you.”
+          </blockquote>
+          <figcaption className="mt-3 text-sm font-medium">
+            Neil deGrasse Tyson <span className="text-muted-foreground">· Astrophysicist</span>
+          </figcaption>
+        </figure>
+      </Reveal>
     </Section>
   )
 }
