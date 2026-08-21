@@ -104,6 +104,7 @@ export function Lightbox({ item, onClose, onPrev, onNext, hasPrev, hasNext }: Li
       <div className="flex flex-col items-center gap-5" onClick={(event) => event.stopPropagation()}>
         {isVideo ? (
           <video
+            key={item.video}
             className="max-h-[78vh] max-w-[92vw] rounded-xl bg-black"
             controls
             autoPlay
