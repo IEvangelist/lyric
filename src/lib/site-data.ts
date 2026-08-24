@@ -1,7 +1,9 @@
 import lagoon from '@/assets/lagoon-nebula-m8.jpg'
-import veil from '@/assets/veil-nebula.jpg'
+import veil from '@/assets/c-33.jpg'
 import dumbbell from '@/assets/dumbbell-nebula-m27.jpg'
 import blackEye from '@/assets/black-eye-galaxy-m64.jpg'
+import northAmerica from '@/assets/c-20.jpg'
+import ring from '@/assets/m-57.jpg'
 
 const BASE = import.meta.env.BASE_URL
 
@@ -51,6 +53,24 @@ export const captures: Capture[] = [
     description:
       'A spiral galaxy roughly 17 million light-years away, named for the dark band of dust sweeping across its bright core.',
     image: blackEye,
+    kind: 'image',
+  },
+  {
+    id: 'north-america',
+    title: 'North America Nebula',
+    subtitle: 'Caldwell 20 · Cygnus',
+    description:
+      'A vast cloud of glowing hydrogen about 1,600 light-years away, its bright ridges shaped uncannily like the continent it is named for.',
+    image: northAmerica,
+    kind: 'image',
+  },
+  {
+    id: 'ring',
+    title: 'Ring Nebula',
+    subtitle: 'Messier 57 · Lyra',
+    description:
+      'A planetary nebula some 2,500 light-years away — the glowing smoke ring of gas puffed off by a dying star at its center.',
+    image: ring,
     kind: 'image',
   },
   {
