@@ -180,6 +180,12 @@
   .text-glow {
     text-shadow: 0 0 32px oklch(0.68 0.19 288 / 0.55);
   }
+  /* Staggered fly-in for lightbox captions (shared/deep-linked opens). */
+  .fly-in {
+    animation: fly-in 0.72s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: var(--fly-delay, 0ms);
+    will-change: opacity, transform;
+  }
 }
 
 @keyframes twinkle {
@@ -187,10 +193,51 @@
   50% { opacity: 1; }
 }
 
+@keyframes fly-in {
+  from {
+    opacity: 0;
+    transform: translateY(1.25rem) scale(0.985);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
+}
+
+/* Media entrance for shared deep links that cold-boot into zoom mode. */
+@keyframes zoom-media-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.zoom-media-in {
+  animation: zoom-media-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+  will-change: opacity, transform;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .reveal {
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
+  }
+  .fly-in {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+  .zoom-media-in {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
 }

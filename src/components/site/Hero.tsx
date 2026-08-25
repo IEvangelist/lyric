@@ -1,5 +1,7 @@
-import lagoon from '@/assets/lagoon-nebula-m8.jpg'
 import { Button } from '@/components/ui/button'
+import { withBase } from '@/lib/site-data'
+
+const lagoon = withBase('media/captures/lagoon-nebula-m8.jpg')
 
 export function Hero() {
   return (

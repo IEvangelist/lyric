@@ -1,4 +1,5 @@
 import { Heart, Telescope } from 'lucide-react'
+import { copyrightNotice, LICENSE_NAME, LICENSE_URL } from '@/lib/site-meta'
 
 export function Footer() {
   return (
@@ -10,8 +11,18 @@ export function Footer() {
         </div>
         <p>Reach for the stars.</p>
         <p className="flex items-center gap-1.5">
-          Made with <Heart className="size-3.5 fill-primary text-primary" /> for Lyric ·{' '}
-          {new Date().getFullYear()}
+          Made with <Heart className="size-3.5 fill-primary text-primary" /> for Lyric
+        </p>
+        <p className="text-xs text-muted-foreground/80">
+          {copyrightNotice()} ·{' '}
+          <a
+            href={LICENSE_URL}
+            target="_blank"
+            rel="noreferrer license"
+            className="underline-offset-4 transition-colors hover:text-foreground hover:underline"
+          >
+            {LICENSE_NAME} Licensed
+          </a>
         </p>
       </div>
     </footer>

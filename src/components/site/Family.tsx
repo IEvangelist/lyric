@@ -36,6 +36,7 @@ export function Family() {
             ? {
                 title: 'Kennedy Space Center',
                 subtitle: 'NASA Visitor Complex, Florida',
+                alt: familyAlt,
                 image: family,
                 kind: 'image',
               }

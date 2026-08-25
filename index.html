@@ -5,6 +5,11 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#12101f" />
+    <style>
+      /* Paint the shell dark before the CSS bundle loads so cold boots — including
+         shared deep links that open straight into zoom mode — never flash white. */
+      html { background-color: #0c0b15; background-color: oklch(0.15 0.028 275); }
+    </style>
     <meta
       name="description"
       content="Lyric is a 14-year-old aspiring astrophysicist and Wisconsin state-level swimmer. Astrophotography, swimming, and a passion for space."
@@ -12,6 +17,8 @@
     <title>Lyric: Space & Swimming</title>
 
     <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:site_name" content="Lyric: Space &amp; Swimming" />
     <meta property="og:title" content="Lyric: Space & Swimming" />
     <meta
       property="og:description"
