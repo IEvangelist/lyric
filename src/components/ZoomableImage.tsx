@@ -6,26 +6,30 @@ type ZoomableImageProps = {
   alt: string
   className?: string
   imgClassName?: string
-  /** Called on a horizontal swipe-right while the image is not zoomed. */
+  /** Called on a horizontal swipe-right while the image is at rest. */
   onSwipePrev?: () => void
-  /** Called on a horizontal swipe-left while the image is not zoomed. */
+  /** Called on a horizontal swipe-left while the image is at rest. */
   onSwipeNext?: () => void
 }
 
-const MAX_SCALE = 4
+const MAX_SCALE = 5
 const DOUBLE_TAP_SCALE = 2.5
 const DOUBLE_TAP_MS = 280
 const TAP_MOVE_TOLERANCE = 10
 
 type GestureMode = 'none' | 'pan' | 'pinch' | 'swipe'
 
+const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value))
+
 /**
- * Touch-first image viewer. Supports pinch-to-zoom, drag-to-pan while zoomed,
- * double-tap (or double-click) to toggle zoom at a point, wheel-to-zoom on
- * desktop, and a horizontal swipe to move to the previous/next image while at
- * rest. All input is handled through Pointer Events, so mouse, touch, and pen
- * share one code path. The transform is written imperatively to avoid a React
- * re-render on every move.
+ * Full-bleed, touch-first image viewer. The image is laid out `object-contain`
+ * inside a container that fills its parent, and all gestures act on the whole
+ * surface so there is no dead space to hunt for. Supports pinch-to-zoom,
+ * drag-to-pan while zoomed, double-tap (or double-click) to zoom toward a
+ * point, wheel-to-zoom on desktop, and a horizontal swipe to move between
+ * images while at rest. Everything runs through Pointer Events so mouse, touch,
+ * and pen share one path, and the transform is written imperatively to avoid a
+ * React re-render on every move.
  */
 export function ZoomableImage({
   src,
@@ -38,11 +42,13 @@ export function ZoomableImage({
   const containerRef = useRef<HTMLDivElement>(null)
   const imgRef = useRef<HTMLImageElement>(null)
 
+  // Transform state, kept in a ref so pointer math never waits on React.
+  // tx/ty translate the image's center (transform-origin is center center).
   const view = useRef({ scale: 1, tx: 0, ty: 0 })
   const pointers = useRef(new Map<number, { x: number; y: number }>())
   const start = useRef({
-    x: 0,
-    y: 0,
+    clientX: 0,
+    clientY: 0,
     tx: 0,
     ty: 0,
     scale: 1,
@@ -56,14 +62,29 @@ export function ZoomableImage({
   const lastTap = useRef(0)
   const [zoomed, setZoomed] = useState(false)
 
-  const size = () => {
+  // Container geometry + the image's laid-out (untransformed) size. offsetWidth
+  // /Height ignore the CSS transform, so they always give the contain-fitted
+  // base size regardless of the current zoom.
+  const geom = () => {
     const el = containerRef.current
-    return { w: el?.clientWidth ?? 0, h: el?.clientHeight ?? 0 }
+    const img = imgRef.current
+    const rect = el?.getBoundingClientRect()
+    const cw = el?.clientWidth ?? 0
+    const ch = el?.clientHeight ?? 0
+    return {
+      cw,
+      ch,
+      baseW: img?.offsetWidth ?? 0,
+      baseH: img?.offsetHeight ?? 0,
+      cx: (rect?.left ?? 0) + cw / 2,
+      cy: (rect?.top ?? 0) + ch / 2,
+    }
   }
 
+  // Pointer position relative to the container center.
   const rel = (clientX: number, clientY: number) => {
-    const rect = containerRef.current!.getBoundingClientRect()
-    return { x: clientX - rect.left, y: clientY - rect.top }
+    const { cx, cy } = geom()
+    return { x: clientX - cx, y: clientY - cy }
   }
 
   const applyTransform = useCallback((transition: boolean) => {
@@ -76,29 +97,42 @@ export function ZoomableImage({
 
   const setView = useCallback(
     (scale: number, tx: number, ty: number, transition = false) => {
-      const { w, h } = size()
-      const clampedScale = Math.min(MAX_SCALE, Math.max(1, scale))
-      const minX = w * (1 - clampedScale)
-      const minY = h * (1 - clampedScale)
+      const { cw, ch, baseW, baseH } = geom()
+      const s = clamp(scale, 1, MAX_SCALE)
+      // How far the (scaled) image can travel before its edge crosses the frame.
+      const maxX = Math.max(0, (baseW * s - cw) / 2)
+      const maxY = Math.max(0, (baseH * s - ch) / 2)
       view.current = {
-        scale: clampedScale,
-        tx: Math.min(0, Math.max(minX, tx)),
-        ty: Math.min(0, Math.max(minY, ty)),
+        scale: s,
+        tx: clamp(tx, -maxX, maxX),
+        ty: clamp(ty, -maxY, maxY),
       }
       applyTransform(transition)
-      const nowZoomed = clampedScale > 1.01
+      const nowZoomed = s > 1.01
       setZoomed((current) => (current === nowZoomed ? current : nowZoomed))
     },
     [applyTransform],
   )
 
-  // Reset when the underlying image changes (callers also remount via key, but
-  // this keeps state honest if they don't).
+  // Reset when the underlying image changes.
   useEffect(() => {
     view.current = { scale: 1, tx: 0, ty: 0 }
     applyTransform(false)
     setZoomed(false)
   }, [src, applyTransform])
+
+  // Re-clamp on resize / orientation change so a rotated frame never leaves the
+  // image parked off-center or out of bounds.
+  useEffect(() => {
+    const el = containerRef.current
+    if (!el || typeof ResizeObserver === 'undefined') return
+    const ro = new ResizeObserver(() => {
+      const { scale, tx, ty } = view.current
+      setView(scale, tx, ty)
+    })
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [setView])
 
   const midpoint = () => {
     const pts = [...pointers.current.values()]
@@ -113,10 +147,10 @@ export function ZoomableImage({
     return Math.hypot(a.x - b.x, a.y - b.y)
   }
 
-  const beginSinglePointer = (x: number, y: number) => {
+  const beginSinglePointer = (clientX: number, clientY: number) => {
     start.current.mode = view.current.scale > 1.01 ? 'pan' : 'swipe'
-    start.current.x = x
-    start.current.y = y
+    start.current.clientX = clientX
+    start.current.clientY = clientY
     start.current.tx = view.current.tx
     start.current.ty = view.current.ty
     start.current.scale = view.current.scale
@@ -145,11 +179,10 @@ export function ZoomableImage({
     } catch {
       // Ignore: the pointer may already be released on some platforms.
     }
-    const p = rel(event.clientX, event.clientY)
-    pointers.current.set(event.pointerId, p)
+    pointers.current.set(event.pointerId, rel(event.clientX, event.clientY))
 
     if (pointers.current.size === 1) {
-      beginSinglePointer(p.x, p.y)
+      beginSinglePointer(event.clientX, event.clientY)
     } else if (pointers.current.size === 2) {
       start.current.mode = 'pinch'
       start.current.dist = distance()
@@ -168,16 +201,15 @@ export function ZoomableImage({
 
     const s = start.current
     if (pointers.current.size >= 2 && s.mode === 'pinch') {
-      const scale = Math.min(MAX_SCALE, Math.max(1, s.scale * (distance() / s.dist)))
+      const scale = clamp(s.scale * (distance() / s.dist), 1, MAX_SCALE)
       const k = scale / s.scale
       const m = midpoint()
-      setView(scale, m.x - (s.midX - s.tx) * k, m.y - (s.midY - s.ty) * k)
+      setView(scale, m.x - k * (s.midX - s.tx), m.y - k * (s.midY - s.ty))
       return
     }
 
-    const p = pointers.current.get(event.pointerId)!
-    const dx = p.x - s.x
-    const dy = p.y - s.y
+    const dx = event.clientX - s.clientX
+    const dy = event.clientY - s.clientY
     if (Math.abs(dx) + Math.abs(dy) > TAP_MOVE_TOLERANCE) s.moved = true
 
     if (s.mode === 'pan') {
@@ -198,24 +230,21 @@ export function ZoomableImage({
     const s = start.current
 
     if (pointers.current.size === 0) {
-      if (s.mode === 'swipe') {
-        const threshold = Math.max(60, size().w * 0.18)
-        if (s.swipeDx <= -threshold && onSwipeNext) {
-          onSwipeNext()
-          return
-        }
-        if (s.swipeDx >= threshold && onSwipePrev) {
-          onSwipePrev()
-          return
-        }
+      if (s.mode === 'swipe' && s.moved) {
+        const { cw } = geom()
+        const threshold = Math.max(60, cw * 0.18)
+        if (s.swipeDx <= -threshold && onSwipeNext) return onSwipeNext()
+        if (s.swipeDx >= threshold && onSwipePrev) return onSwipePrev()
         applyTransform(true) // snap back to rest
       }
       if (!s.moved) handleTap(event.clientX, event.clientY)
       s.mode = 'none'
     } else if (pointers.current.size === 1) {
-      // Dropped from a pinch to a single finger: continue as a pan/swipe.
-      const [remaining] = [...pointers.current.values()]
-      beginSinglePointer(remaining.x, remaining.y)
+      // Dropped from a pinch to a single finger: keep panning from here.
+      const [id] = [...pointers.current.keys()]
+      const p = pointers.current.get(id)!
+      const { cx, cy } = geom()
+      beginSinglePointer(p.x + cx, p.y + cy)
     }
   }
 
@@ -228,9 +257,9 @@ export function ZoomableImage({
       event.preventDefault()
       const p = rel(event.clientX, event.clientY)
       const factor = event.deltaY < 0 ? 1.15 : 1 / 1.15
-      const scale = Math.min(MAX_SCALE, Math.max(1, view.current.scale * factor))
+      const scale = clamp(view.current.scale * factor, 1, MAX_SCALE)
       const k = scale / view.current.scale
-      setView(scale, p.x - (p.x - view.current.tx) * k, p.y - (p.y - view.current.ty) * k)
+      setView(scale, p.x * (1 - k) + k * view.current.tx, p.y * (1 - k) + k * view.current.ty)
     }
 
     el.addEventListener('wheel', onWheel, { passive: false })
@@ -241,7 +270,7 @@ export function ZoomableImage({
     <div
       ref={containerRef}
       className={cn(
-        'relative inline-flex touch-none overflow-hidden rounded-xl select-none',
+        'relative flex h-full w-full touch-none items-center justify-center overflow-hidden select-none',
         zoomed ? 'cursor-grab active:cursor-grabbing' : 'cursor-zoom-in',
         className,
       )}
@@ -257,9 +286,9 @@ export function ZoomableImage({
         alt={alt}
         draggable={false}
         onDragStart={(event) => event.preventDefault()}
-        style={{ transformOrigin: '0 0', willChange: 'transform' }}
+        style={{ transformOrigin: 'center center', willChange: 'transform' }}
         className={cn(
-          'max-h-[82vh] max-w-[94vw] object-contain',
+          'max-h-full max-w-full object-contain',
           'pointer-events-none select-none [-webkit-touch-callout:none] [-webkit-user-drag:none]',
           imgClassName,
         )}

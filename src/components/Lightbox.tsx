@@ -92,7 +92,7 @@ export function Lightbox({
   const instant = entrance === 'instant'
   const overlayClass = instant
     ? 'bg-background'
-    : 'bg-background/95 duration-200 animate-in fade-in-0'
+    : 'bg-background duration-200 animate-in fade-in-0'
 
   return createPortal(
     <div
@@ -104,7 +104,7 @@ export function Lightbox({
         else onClose()
       }}
       onContextMenu={(event) => event.preventDefault()}
-      className={`fixed inset-0 z-[100] flex flex-col items-center justify-center px-4 py-14 backdrop-blur-xl sm:px-8 ${overlayClass}`}
+      className={`fixed inset-0 z-[100] flex flex-col overflow-hidden ${overlayClass}`}
     >
       <div className="absolute top-4 right-4 z-10 flex items-center gap-2">
         {item.id && (
@@ -163,21 +163,28 @@ export function Lightbox({
         </button>
       )}
 
-      <div className="flex flex-col items-center gap-5" onClick={(event) => event.stopPropagation()}>
-        <div className={`relative ${instant ? 'zoom-media-in' : ''}`}>
+      <div className="flex min-h-0 flex-1 flex-col" onClick={(event) => event.stopPropagation()}>
+        <div
+          className={`relative flex min-h-0 flex-1 items-center justify-center p-2 sm:p-4 ${instant ? 'zoom-media-in' : ''}`}
+        >
           {isVideo ? (
-            <video
-              key={item.video}
-              className="max-h-[78vh] max-w-[92vw] rounded-xl bg-black"
-              controls
-              autoPlay
-              muted
-              playsInline
-              preload="metadata"
-              poster={item.poster}
-            >
-              <source src={item.video} type="video/mp4" />
-            </video>
+            <div className="relative">
+              <video
+                key={item.video}
+                className="max-h-full max-w-full rounded-xl bg-black"
+                controls
+                autoPlay
+                muted
+                playsInline
+                preload="metadata"
+                poster={item.poster}
+              >
+                <source src={item.video} type="video/mp4" />
+              </video>
+              <span className="pointer-events-none absolute right-3 bottom-2 z-10 font-medium tracking-wide text-[10px] text-white/40 select-none drop-shadow-[0_1px_2px_rgba(0,0,0,0.85)]">
+                {copyrightNotice()}
+              </span>
+            </div>
           ) : (
             <ZoomableImage
               key={item.image}
@@ -187,14 +194,12 @@ export function Lightbox({
               onSwipeNext={onNext}
             />
           )}
-          {isVideo && (
-            <span className="pointer-events-none absolute right-3 bottom-2 z-10 font-medium tracking-wide text-[10px] text-white/40 select-none drop-shadow-[0_1px_2px_rgba(0,0,0,0.85)]">
-              {copyrightNotice()}
-            </span>
-          )}
         </div>
 
-        <div key={item.id} className="pointer-events-none max-w-2xl text-center">
+        <div
+          key={item.id}
+          className="pointer-events-none mx-auto w-full max-w-2xl shrink-0 px-4 pt-2 pb-6 text-center sm:pb-8"
+        >
           <h2
             className="fly-in font-heading text-xl font-semibold tracking-tight"
             style={flyDelay(40)}
