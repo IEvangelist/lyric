@@ -103,6 +103,18 @@ export const captures: Capture[] = [
     kind: 'image',
   },
   {
+    id: 'pacman',
+    title: 'Pacman Nebula',
+    subtitle: 'NGC 281 · Cassiopeia',
+    description:
+      'A glowing emission nebula roughly 9,500 light-years away, sculpted by young stars and dark dust lanes into its familiar arcade-game silhouette.',
+    alt: 'The Pacman Nebula (NGC 281): red emission clouds divided by dark dust lanes amid a dense field of stars.',
+    image: 'media/captures/ngc-281.jpg',
+    width: 1820,
+    height: 756,
+    kind: 'image',
+  },
+  {
     id: 'moon',
     title: 'The Moon',
     subtitle: 'Waxing gibbous · filmed live',
