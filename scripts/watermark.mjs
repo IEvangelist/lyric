@@ -29,8 +29,8 @@ function escapeXml(value) {
 }
 
 function watermarkSvg(width, height, text) {
-  const pad = Math.round(width * 0.022)
-  const fontSize = Math.max(15, Math.round(width * 0.026))
+  const pad = Math.round(width * 0.02)
+  const fontSize = Math.max(11, Math.round(width * 0.0125))
   return Buffer.from(
     `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">
   <defs>

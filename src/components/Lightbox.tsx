@@ -179,7 +179,13 @@ export function Lightbox({
               <source src={item.video} type="video/mp4" />
             </video>
           ) : (
-            <ZoomableImage key={item.image} src={item.image} alt={item.alt ?? item.title} />
+            <ZoomableImage
+              key={item.image}
+              src={item.image}
+              alt={item.alt ?? item.title}
+              onSwipePrev={onPrev}
+              onSwipeNext={onNext}
+            />
           )}
           {isVideo && (
             <span className="pointer-events-none absolute right-3 bottom-2 z-10 font-medium tracking-wide text-[10px] text-white/40 select-none drop-shadow-[0_1px_2px_rgba(0,0,0,0.85)]">
