@@ -103,6 +103,7 @@ export function Lightbox({
         if (shareOpen) setShareOpen(false)
         else onClose()
       }}
+      onContextMenu={(event) => event.preventDefault()}
       className={`fixed inset-0 z-[100] flex flex-col items-center justify-center px-4 py-14 backdrop-blur-xl sm:px-8 ${overlayClass}`}
     >
       <div className="absolute top-4 right-4 z-10 flex items-center gap-2">
@@ -180,9 +181,11 @@ export function Lightbox({
           ) : (
             <ZoomableImage key={item.image} src={item.image} alt={item.alt ?? item.title} />
           )}
-          <span className="pointer-events-none absolute right-3 bottom-2 z-10 font-medium tracking-wide text-[10px] text-white/40 select-none drop-shadow-[0_1px_2px_rgba(0,0,0,0.85)]">
-            {copyrightNotice()}
-          </span>
+          {isVideo && (
+            <span className="pointer-events-none absolute right-3 bottom-2 z-10 font-medium tracking-wide text-[10px] text-white/40 select-none drop-shadow-[0_1px_2px_rgba(0,0,0,0.85)]">
+              {copyrightNotice()}
+            </span>
+          )}
         </div>
 
         <div key={item.id} className="pointer-events-none max-w-2xl text-center">

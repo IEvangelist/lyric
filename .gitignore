@@ -23,6 +23,10 @@ dist-ssr
 *.sln
 *.sw?
 
+# Pristine, un-watermarked capture originals. Kept local only; the published
+# files in public/media/captures are watermarked via `npm run watermark`.
+/media-src
+
 # Original source media (transcoded into src/assets and public/media)
 /0000.JPG
 /0001.jpg
