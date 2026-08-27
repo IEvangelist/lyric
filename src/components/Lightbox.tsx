@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { ChevronLeft, ChevronRight, X } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Images, X } from 'lucide-react'
 import { ZoomableImage } from '@/components/ZoomableImage'
 import { ShareMenu } from '@/components/ShareMenu'
 import { copyrightNotice } from '@/lib/site-meta'
@@ -16,6 +16,11 @@ export type LightboxItem = {
   kind: 'image' | 'video'
   video?: string
   poster?: string
+  stack?: {
+    current: number
+    total: number
+    isLatest: boolean
+  }
 }
 
 type LightboxProps = {
@@ -54,12 +59,12 @@ export function Lightbox({
   const closeRef = useRef<HTMLButtonElement>(null)
   const [shareOpen, setShareOpen] = useState(false)
 
-  const itemId = item?.id
+  const itemImage = item?.image
 
-  // Collapse the share popover whenever the visible capture changes.
+  // Collapse the share popover whenever the visible shot changes.
   useEffect(() => {
     setShareOpen(false)
-  }, [itemId])
+  }, [itemImage])
 
   useEffect(() => {
     if (!item) return
@@ -106,6 +111,20 @@ export function Lightbox({
       onContextMenu={(event) => event.preventDefault()}
       className={`fixed inset-0 z-[100] flex flex-col overflow-hidden ${overlayClass}`}
     >
+      {item.stack && (
+        <div className="pointer-events-none absolute top-4 left-4 z-10 flex h-10 items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 text-xs font-medium text-foreground/80 backdrop-blur-sm">
+          <Images className="size-4" />
+          <span>
+            {item.stack.current} of {item.stack.total}
+          </span>
+          {item.stack.isLatest && (
+            <span className="rounded-full bg-primary/20 px-2 py-0.5 text-[10px] font-semibold tracking-wide text-primary uppercase">
+              Latest
+            </span>
+          )}
+        </div>
+      )}
+
       <div className="absolute top-4 right-4 z-10 flex items-center gap-2">
         {item.id && (
           <ShareMenu
@@ -136,7 +155,7 @@ export function Lightbox({
       {hasPrev && (
         <button
           type="button"
-          aria-label="Previous"
+          aria-label="Previous image"
           onClick={(event) => {
             event.stopPropagation()
             setShareOpen(false)
@@ -151,7 +170,7 @@ export function Lightbox({
       {hasNext && (
         <button
           type="button"
-          aria-label="Next"
+          aria-label="Next image"
           onClick={(event) => {
             event.stopPropagation()
             setShareOpen(false)

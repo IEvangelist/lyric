@@ -9,6 +9,13 @@
 
 export type CaptureKind = 'image' | 'video'
 
+export type CaptureShot = {
+  alt: string
+  image: string
+  width: number
+  height: number
+}
+
 export type Capture = {
   id: string
   title: string
@@ -22,11 +29,26 @@ export type Capture = {
   width: number
   /** Intrinsic height of `image`, used for og:image:height. */
   height: number
+  /** Earlier shots of the same subject, ordered newest to oldest. */
+  previousShots?: CaptureShot[]
   kind: CaptureKind
   /** Path relative to the site base (video only). */
   video?: string
   /** Path relative to the site base (video only). */
   poster?: string
+}
+
+/** Return every shot with the primary/latest image first. */
+export function shotsForCapture(capture: Capture): CaptureShot[] {
+  return [
+    {
+      alt: capture.alt,
+      image: capture.image,
+      width: capture.width,
+      height: capture.height,
+    },
+    ...(capture.previousShots ?? []),
+  ]
 }
 
 export const captures: Capture[] = [
@@ -108,10 +130,18 @@ export const captures: Capture[] = [
     subtitle: 'NGC 281 · Cassiopeia',
     description:
       'A glowing emission nebula roughly 9,500 light-years away, sculpted by young stars and dark dust lanes into its familiar arcade-game silhouette.',
-    alt: 'The Pacman Nebula (NGC 281): red emission clouds divided by dark dust lanes amid a dense field of stars.',
-    image: 'media/captures/ngc-281.jpg',
-    width: 1820,
-    height: 756,
+    alt: 'The Pacman Nebula (NGC 281): a glowing red emission nebula crossed by dark dust lanes in a dense star field.',
+    image: 'media/captures/ngc-281-2.jpg',
+    width: 1800,
+    height: 772,
+    previousShots: [
+      {
+        alt: 'The Pacman Nebula (NGC 281): red emission clouds divided by dark dust lanes amid a dense field of stars.',
+        image: 'media/captures/ngc-281.jpg',
+        width: 1820,
+        height: 756,
+      },
+    ],
     kind: 'image',
   },
   {

@@ -1,4 +1,9 @@
-import { captures as rawCaptures, type Capture, type CaptureKind } from './captures'
+import {
+  captures as rawCaptures,
+  type Capture,
+  type CaptureKind,
+  type CaptureShot,
+} from './captures'
 
 const BASE = import.meta.env.BASE_URL
 
@@ -7,12 +12,17 @@ export function withBase(path: string): string {
   return `${BASE}${path}`
 }
 
-export type { Capture, CaptureKind }
+export { shotsForCapture } from './captures'
+export type { Capture, CaptureKind, CaptureShot }
 
 // Resolve every relative media path to a base-aware URL for runtime use.
 export const captures: Capture[] = rawCaptures.map((capture) => ({
   ...capture,
   image: withBase(capture.image),
+  previousShots: capture.previousShots?.map((shot) => ({
+    ...shot,
+    image: withBase(shot.image),
+  })),
   video: capture.video ? withBase(capture.video) : undefined,
   poster: capture.poster ? withBase(capture.poster) : undefined,
 }))
