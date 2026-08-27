@@ -232,7 +232,7 @@ export function ZoomableImage({
     if (pointers.current.size === 0) {
       if (s.mode === 'swipe' && s.moved) {
         const { cw } = geom()
-        const threshold = Math.max(60, cw * 0.18)
+        const threshold = Math.min(120, Math.max(48, cw * 0.12))
         if (s.swipeDx <= -threshold && onSwipeNext) return onSwipeNext()
         if (s.swipeDx >= threshold && onSwipePrev) return onSwipePrev()
         applyTransform(true) // snap back to rest

@@ -12,7 +12,7 @@ export function withBase(path: string): string {
   return `${BASE}${path}`
 }
 
-export { shotsForCapture } from './captures'
+export { formatCaptureDate, shotsForCapture } from './captures'
 export type { Capture, CaptureKind, CaptureShot }
 
 // Resolve every relative media path to a base-aware URL for runtime use.

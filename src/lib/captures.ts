@@ -14,6 +14,8 @@ export type CaptureShot = {
   image: string
   width: number
   height: number
+  /** ISO 8601 date on which this shot was captured. */
+  capturedOn: string
 }
 
 export type Capture = {
@@ -29,6 +31,8 @@ export type Capture = {
   width: number
   /** Intrinsic height of `image`, used for og:image:height. */
   height: number
+  /** ISO 8601 date on which the primary/latest shot was captured. */
+  capturedOn: string
   /** Earlier shots of the same subject, ordered newest to oldest. */
   previousShots?: CaptureShot[]
   kind: CaptureKind
@@ -46,9 +50,21 @@ export function shotsForCapture(capture: Capture): CaptureShot[] {
       image: capture.image,
       width: capture.width,
       height: capture.height,
+      capturedOn: capture.capturedOn,
     },
     ...(capture.previousShots ?? []),
   ]
+}
+
+const captureDateFormatter = new Intl.DateTimeFormat('en-US', {
+  month: 'short',
+  day: 'numeric',
+  year: 'numeric',
+  timeZone: 'UTC',
+})
+
+export function formatCaptureDate(capturedOn: string): string {
+  return captureDateFormatter.format(new Date(`${capturedOn}T00:00:00Z`))
 }
 
 export const captures: Capture[] = [
@@ -62,6 +78,7 @@ export const captures: Capture[] = [
     image: 'media/captures/lagoon-nebula-m8.jpg',
     width: 1828,
     height: 784,
+    capturedOn: '2026-08-18',
     kind: 'image',
   },
   {
@@ -74,6 +91,7 @@ export const captures: Capture[] = [
     image: 'media/captures/c-33.jpg',
     width: 1752,
     height: 792,
+    capturedOn: '2026-08-17',
     kind: 'image',
   },
   {
@@ -86,6 +104,7 @@ export const captures: Capture[] = [
     image: 'media/captures/dumbbell-nebula-m27.jpg',
     width: 1060,
     height: 772,
+    capturedOn: '2026-08-04',
     kind: 'image',
   },
   {
@@ -98,6 +117,7 @@ export const captures: Capture[] = [
     image: 'media/captures/black-eye-galaxy-m64.jpg',
     width: 1736,
     height: 792,
+    capturedOn: '2026-05-05',
     kind: 'image',
   },
   {
@@ -110,6 +130,7 @@ export const captures: Capture[] = [
     image: 'media/captures/c-20.jpg',
     width: 1544,
     height: 996,
+    capturedOn: '2026-08-24',
     kind: 'image',
   },
   {
@@ -122,6 +143,7 @@ export const captures: Capture[] = [
     image: 'media/captures/m-57.jpg',
     width: 1636,
     height: 672,
+    capturedOn: '2026-08-23',
     kind: 'image',
   },
   {
@@ -134,12 +156,14 @@ export const captures: Capture[] = [
     image: 'media/captures/ngc-281-2.jpg',
     width: 1800,
     height: 772,
+    capturedOn: '2026-08-27',
     previousShots: [
       {
         alt: 'The Pacman Nebula (NGC 281): red emission clouds divided by dark dust lanes amid a dense field of stars.',
         image: 'media/captures/ngc-281.jpg',
         width: 1820,
         height: 756,
+        capturedOn: '2026-08-25',
       },
     ],
     kind: 'image',
@@ -154,6 +178,7 @@ export const captures: Capture[] = [
     image: 'media/moon-poster.jpg',
     width: 1280,
     height: 720,
+    capturedOn: '2026-03-29',
     poster: 'media/moon-poster.jpg',
     video: 'media/moon.mp4',
     kind: 'video',
@@ -168,6 +193,7 @@ export const captures: Capture[] = [
     image: 'media/sun-poster.jpg',
     width: 1280,
     height: 720,
+    capturedOn: '2026-03-30',
     poster: 'media/sun-poster.jpg',
     video: 'media/sun.mp4',
     kind: 'video',

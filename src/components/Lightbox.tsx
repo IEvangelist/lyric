@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { ChevronLeft, ChevronRight, Images, X } from 'lucide-react'
+import { CalendarDays, ChevronLeft, ChevronRight, Images, X } from 'lucide-react'
 import { ZoomableImage } from '@/components/ZoomableImage'
 import { ShareMenu } from '@/components/ShareMenu'
+import { formatCaptureDate } from '@/lib/site-data'
 import { copyrightNotice } from '@/lib/site-meta'
 
 export type LightboxItem = {
@@ -13,6 +14,7 @@ export type LightboxItem = {
   description?: string
   alt?: string
   image: string
+  capturedOn?: string
   kind: 'image' | 'video'
   video?: string
   poster?: string
@@ -41,7 +43,7 @@ type LightboxProps = {
 }
 
 const controlClass =
-  'grid place-items-center rounded-full border border-white/10 bg-white/5 text-foreground/80 backdrop-blur-sm transition hover:bg-white/10 hover:text-foreground focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none'
+  'grid place-items-center rounded-full border border-white/15 bg-black/35 text-white/85 shadow-lg shadow-black/20 backdrop-blur-md transition hover:bg-black/55 hover:text-white active:scale-95 focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none'
 
 function flyDelay(ms: number) {
   return { '--fly-delay': `${ms}ms` } as React.CSSProperties
@@ -75,8 +77,10 @@ export function Lightbox({
         if (shareOpen) setShareOpen(false)
         else onClose()
       } else if (event.key === 'ArrowLeft' && hasPrev && !shareOpen) {
+        event.preventDefault()
         onPrev?.()
       } else if (event.key === 'ArrowRight' && hasNext && !shareOpen) {
+        event.preventDefault()
         onNext?.()
       }
     }
@@ -109,10 +113,48 @@ export function Lightbox({
         else onClose()
       }}
       onContextMenu={(event) => event.preventDefault()}
-      className={`fixed inset-0 z-[100] flex flex-col overflow-hidden ${overlayClass}`}
+      className={`fixed inset-0 z-[100] h-dvh overflow-hidden ${overlayClass}`}
     >
+      <div
+        className={`lightbox-media absolute inset-0 ${instant ? 'zoom-media-in' : ''}`}
+        onClick={(event) => event.stopPropagation()}
+      >
+        {isVideo ? (
+          <div className="relative flex size-full items-center justify-center">
+            <video
+              key={item.video}
+              className="max-h-full max-w-full bg-black object-contain sm:rounded-xl"
+              controls
+              autoPlay
+              muted
+              playsInline
+              preload="metadata"
+              poster={item.poster}
+            >
+              <source src={item.video} type="video/mp4" />
+            </video>
+            <span className="pointer-events-none absolute right-3 bottom-2 z-10 text-[10px] font-medium tracking-wide text-white/40 select-none drop-shadow-[0_1px_2px_rgba(0,0,0,0.85)]">
+              {copyrightNotice()}
+            </span>
+          </div>
+        ) : (
+          <ZoomableImage
+            key={item.image}
+            src={item.image}
+            alt={item.alt ?? item.title}
+            onSwipePrev={onPrev}
+            onSwipeNext={onNext}
+          />
+        )}
+      </div>
+
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 z-[1] h-24 bg-gradient-to-b from-black/60 to-transparent"
+      />
+
       {item.stack && (
-        <div className="pointer-events-none absolute top-4 left-4 z-10 flex h-10 items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 text-xs font-medium text-foreground/80 backdrop-blur-sm">
+        <div className="lightbox-top-left pointer-events-none absolute z-10 flex h-9 items-center gap-2 rounded-full border border-white/15 bg-black/35 px-3 text-xs font-medium text-white/85 shadow-lg shadow-black/20 backdrop-blur-md">
           <Images className="size-4" />
           <span>
             {item.stack.current} of {item.stack.total}
@@ -125,7 +167,7 @@ export function Lightbox({
         </div>
       )}
 
-      <div className="absolute top-4 right-4 z-10 flex items-center gap-2">
+      <div className="lightbox-top-right absolute z-20 flex items-center gap-2">
         {item.id && (
           <ShareMenu
             capture={{
@@ -146,7 +188,7 @@ export function Lightbox({
             event.stopPropagation()
             onClose()
           }}
-          className={`${controlClass} size-10`}
+          className={`${controlClass} size-11`}
         >
           <X className="size-5" />
         </button>
@@ -156,12 +198,13 @@ export function Lightbox({
         <button
           type="button"
           aria-label="Previous image"
+          aria-keyshortcuts="ArrowLeft"
           onClick={(event) => {
             event.stopPropagation()
             setShareOpen(false)
             onPrev?.()
           }}
-          className={`${controlClass} absolute top-1/2 left-3 z-10 size-11 -translate-y-1/2 sm:left-6`}
+          className={`${controlClass} lightbox-prev absolute z-10 size-12`}
         >
           <ChevronLeft className="size-6" />
         </button>
@@ -171,68 +214,47 @@ export function Lightbox({
         <button
           type="button"
           aria-label="Next image"
+          aria-keyshortcuts="ArrowRight"
           onClick={(event) => {
             event.stopPropagation()
             setShareOpen(false)
             onNext?.()
           }}
-          className={`${controlClass} absolute top-1/2 right-3 z-10 size-11 -translate-y-1/2 sm:right-6`}
+          className={`${controlClass} lightbox-next absolute z-10 size-12`}
         >
           <ChevronRight className="size-6" />
         </button>
       )}
 
-      <div className="flex min-h-0 flex-1 flex-col" onClick={(event) => event.stopPropagation()}>
-        <div
-          className={`relative flex min-h-0 flex-1 items-center justify-center p-2 sm:p-4 ${instant ? 'zoom-media-in' : ''}`}
-        >
-          {isVideo ? (
-            <div className="relative">
-              <video
-                key={item.video}
-                className="max-h-full max-w-full rounded-xl bg-black"
-                controls
-                autoPlay
-                muted
-                playsInline
-                preload="metadata"
-                poster={item.poster}
-              >
-                <source src={item.video} type="video/mp4" />
-              </video>
-              <span className="pointer-events-none absolute right-3 bottom-2 z-10 font-medium tracking-wide text-[10px] text-white/40 select-none drop-shadow-[0_1px_2px_rgba(0,0,0,0.85)]">
-                {copyrightNotice()}
-              </span>
-            </div>
-          ) : (
-            <ZoomableImage
-              key={item.image}
-              src={item.image}
-              alt={item.alt ?? item.title}
-              onSwipePrev={onPrev}
-              onSwipeNext={onNext}
-            />
-          )}
-        </div>
-
-        <div
-          key={item.id}
-          className="pointer-events-none mx-auto w-full max-w-2xl shrink-0 px-4 pt-2 pb-6 text-center sm:pb-8"
-        >
+      <div
+        key={item.image}
+        className="lightbox-caption pointer-events-none absolute inset-x-0 bottom-0 z-[1] text-center"
+      >
+        <div className="mx-auto w-full max-w-2xl">
           <h2
-            className="fly-in font-heading text-xl font-semibold tracking-tight"
+            className="fly-in font-heading text-lg font-semibold tracking-tight text-white sm:text-xl"
             style={flyDelay(40)}
           >
             {item.title}
           </h2>
-          {item.subtitle && (
-            <p className="fly-in mt-1 text-sm text-primary/80" style={flyDelay(130)}>
-              {item.subtitle}
-            </p>
+          {(item.subtitle || item.capturedOn) && (
+            <div
+              className="fly-in mt-1 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-xs text-white/70 sm:text-sm"
+              style={flyDelay(130)}
+            >
+              {item.subtitle && <span className="text-primary/90">{item.subtitle}</span>}
+              {item.subtitle && item.capturedOn && <span aria-hidden="true">·</span>}
+              {item.capturedOn && (
+                <span className="inline-flex items-center gap-1.5">
+                  <CalendarDays className="size-3.5" />
+                  <time dateTime={item.capturedOn}>{formatCaptureDate(item.capturedOn)}</time>
+                </span>
+              )}
+            </div>
           )}
           {item.description && (
             <p
-              className="fly-in mx-auto mt-2 max-w-xl text-sm text-pretty text-muted-foreground"
+              className="lightbox-description fly-in mx-auto mt-2 max-w-xl text-sm leading-relaxed text-pretty text-white/65"
               style={flyDelay(220)}
             >
               {item.description}

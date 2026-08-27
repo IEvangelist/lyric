@@ -186,6 +186,62 @@
     animation-delay: var(--fly-delay, 0ms);
     will-change: opacity, transform;
   }
+  .lightbox-top-left {
+    top: max(0.75rem, env(safe-area-inset-top));
+    left: max(0.75rem, env(safe-area-inset-left));
+  }
+  .lightbox-top-right {
+    top: max(0.75rem, env(safe-area-inset-top));
+    right: max(0.75rem, env(safe-area-inset-right));
+  }
+  .lightbox-prev {
+    top: 50%;
+    left: max(0.75rem, env(safe-area-inset-left));
+    transform: translateY(-50%);
+  }
+  .lightbox-next {
+    top: 50%;
+    right: max(0.75rem, env(safe-area-inset-right));
+    transform: translateY(-50%);
+  }
+  .lightbox-caption {
+    background: linear-gradient(to top, rgb(0 0 0 / 90%), rgb(0 0 0 / 55%), transparent);
+    padding-top: 5rem;
+    padding-right: max(1rem, env(safe-area-inset-right));
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+    padding-left: max(1rem, env(safe-area-inset-left));
+  }
+  .lightbox-description {
+    display: none;
+  }
+  @media (min-width: 48rem) and (min-height: 38.75rem) {
+    .lightbox-description {
+      display: block;
+    }
+  }
+  @media (orientation: portrait) and (max-width: 47.999rem) {
+    .lightbox-media {
+      top: calc(4.25rem + env(safe-area-inset-top));
+      bottom: calc(7rem + env(safe-area-inset-bottom));
+    }
+    .lightbox-caption {
+      display: flex;
+      min-height: calc(7rem + env(safe-area-inset-bottom));
+      align-items: center;
+      justify-content: center;
+      background: var(--background);
+      padding-top: 0.75rem;
+      padding-right: 4.75rem;
+      padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+      padding-left: 4.75rem;
+    }
+    .lightbox-prev,
+    .lightbox-next {
+      top: auto;
+      bottom: max(1.25rem, calc(env(safe-area-inset-bottom) + 0.75rem));
+      transform: none;
+    }
+  }
 }
 
 @keyframes twinkle {

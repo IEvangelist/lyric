@@ -72,7 +72,7 @@ type ShareMenuProps = {
 }
 
 const triggerClass =
-  'grid place-items-center rounded-full border border-white/10 bg-white/5 text-foreground/80 backdrop-blur-sm transition hover:bg-white/10 hover:text-foreground focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none'
+  'grid place-items-center rounded-full border border-white/15 bg-black/35 text-white/85 shadow-lg shadow-black/20 backdrop-blur-md transition hover:bg-black/55 hover:text-white active:scale-95 focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none'
 
 export function ShareMenu({ capture, open, onOpenChange }: ShareMenuProps) {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -138,7 +138,7 @@ export function ShareMenu({ capture, open, onOpenChange }: ShareMenuProps) {
           event.stopPropagation()
           onOpenChange(!open)
         }}
-        className={`${triggerClass} size-10`}
+        className={`${triggerClass} size-11`}
       >
         <Share2 className="size-5" />
       </button>
@@ -148,7 +148,7 @@ export function ShareMenu({ capture, open, onOpenChange }: ShareMenuProps) {
           role="menu"
           aria-label={`Share ${capture.title}`}
           onClick={(event) => event.stopPropagation()}
-          className="absolute right-0 top-12 z-20 w-72 origin-top-right rounded-2xl border border-white/10 bg-background/95 p-3 text-left shadow-2xl ring-1 ring-black/40 backdrop-blur-xl duration-150 animate-in fade-in-0 zoom-in-95"
+          className="absolute top-13 right-0 z-20 max-h-[calc(100dvh-5rem)] w-[min(18rem,calc(100vw-2rem))] origin-top-right overflow-y-auto rounded-2xl border border-white/10 bg-background/95 p-3 text-left shadow-2xl ring-1 ring-black/40 backdrop-blur-xl duration-150 animate-in fade-in-0 zoom-in-95"
         >
           <p className="px-1 pb-2 text-xs font-medium tracking-wide text-muted-foreground uppercase">
             Share this capture
