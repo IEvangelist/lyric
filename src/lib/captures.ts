@@ -246,19 +246,10 @@ export const captures: Capture[] = [
     description:
       'A glowing emission nebula roughly 9,500 light-years away, sculpted by young stars and dark dust lanes into its familiar arcade-game silhouette.',
     alt: 'The Pacman Nebula (NGC 281): a glowing red emission nebula crossed by dark dust lanes in a dense star field.',
-    image: 'media/captures/ngc-281-2.jpg',
-    width: 1800,
-    height: 772,
+    image: 'media/captures/ngc-281.jpg',
+    width: 1828,
+    height: 724,
     capturedOn: '2026-08-27',
-    additionalShots: [
-      {
-        alt: 'The Pacman Nebula (NGC 281): red emission clouds divided by dark dust lanes amid a dense field of stars.',
-        image: 'media/captures/ngc-281.jpg',
-        width: 1820,
-        height: 756,
-        capturedOn: '2026-08-25',
-      },
-    ],
     kind: 'image',
   },
   {
