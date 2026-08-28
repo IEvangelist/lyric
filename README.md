@@ -2,8 +2,8 @@
 
 A modern, single-page site celebrating **Lyric**: a 14-year-old aspiring astrophysicist
 and Wisconsin state-level competitive swimmer. It showcases his own astrophotography —
-the Lagoon Nebula (M8), the Veil Nebula, and a video of the Moon captured through his
-telescope — alongside his swimming and his goal of studying astrophysics.
+from deep-sky nebulae to a lunar eclipse collage, five-image sequence, and telescope
+time lapses — alongside his swimming and his goal of studying astrophysics.
 
 **Live site:** https://ievangelist.github.io/lyric/
 
@@ -29,9 +29,8 @@ which builds the site and publishes `dist/` to GitHub Pages.
 
 ## Media credits
 
-All nebula and Moon imagery was captured by Lyric through his own telescope. Family
-photo taken at Kennedy Space Center. Please do not reuse the photography without
-permission.
+All astrophotography and telescope video was captured by Lyric. Family photo taken at
+Kennedy Space Center. Please do not reuse the photography or video without permission.
 
 ## License
 

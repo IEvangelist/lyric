@@ -25,6 +25,7 @@ function capturesInOrder(sortOrder: SortOrder): Capture[] {
 function itemsForCaptures(orderedCaptures: Capture[]): GalleryItem[] {
   return orderedCaptures.flatMap((capture) => {
     const shots = shotsForCapture(capture)
+    const spansMultipleDates = new Set(shots.map((shot) => shot.capturedOn)).size > 1
     return shots.map((shot, shotIndex) => ({
       shotIndex,
       item: {
@@ -41,7 +42,8 @@ function itemsForCaptures(orderedCaptures: Capture[]): GalleryItem[] {
             ? {
                 current: shotIndex + 1,
                 total: shots.length,
-                isLatest: shotIndex === 0,
+                isLatest: spansMultipleDates && shotIndex === 0,
+                variant: shot.variant,
               }
             : undefined,
       },

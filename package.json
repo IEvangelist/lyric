@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "collage:eclipse": "node scripts/eclipse-collage.mjs",
     "watermark": "node scripts/watermark.mjs",
     "lint": "oxlint",
     "preview": "vite preview"

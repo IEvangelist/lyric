@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom'
 import { CalendarDays, ChevronLeft, ChevronRight, Images, X } from 'lucide-react'
 import { ZoomableImage } from '@/components/ZoomableImage'
 import { ShareMenu } from '@/components/ShareMenu'
-import { formatCaptureDate } from '@/lib/site-data'
+import { formatCaptureDate, type CaptureVariant } from '@/lib/site-data'
 import { copyrightNotice } from '@/lib/site-meta'
 
 export type LightboxItem = {
@@ -22,6 +22,7 @@ export type LightboxItem = {
     current: number
     total: number
     isLatest: boolean
+    variant?: CaptureVariant
   }
 }
 
@@ -159,6 +160,17 @@ export function Lightbox({
           <span>
             {item.stack.current} of {item.stack.total}
           </span>
+          {item.stack.variant && (
+            <span
+              className={
+                item.stack.variant === 'Enhanced'
+                  ? 'rounded-full bg-primary/20 px-2 py-0.5 text-[10px] font-semibold tracking-wide text-primary uppercase'
+                  : 'rounded-full bg-white/10 px-2 py-0.5 text-[10px] font-semibold tracking-wide text-white/70 uppercase'
+              }
+            >
+              {item.stack.variant}
+            </span>
+          )}
           {item.stack.isLatest && (
             <span className="rounded-full bg-primary/20 px-2 py-0.5 text-[10px] font-semibold tracking-wide text-primary uppercase">
               Latest

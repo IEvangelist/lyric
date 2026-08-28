@@ -8,6 +8,7 @@
 // consumers prepend the base as needed.
 
 export type CaptureKind = 'image' | 'video'
+export type CaptureVariant = 'Enhanced' | 'Original'
 
 export type CaptureShot = {
   alt: string
@@ -16,6 +17,7 @@ export type CaptureShot = {
   height: number
   /** ISO 8601 date on which this shot was captured. */
   capturedOn: string
+  variant?: CaptureVariant
 }
 
 export type Capture = {
@@ -33,8 +35,9 @@ export type Capture = {
   height: number
   /** ISO 8601 date on which the primary/latest shot was captured. */
   capturedOn: string
-  /** Earlier shots of the same subject, ordered newest to oldest. */
-  previousShots?: CaptureShot[]
+  variant?: CaptureVariant
+  /** Other shots grouped with the primary image, in gallery navigation order. */
+  additionalShots?: CaptureShot[]
   kind: CaptureKind
   /** Path relative to the site base (video only). */
   video?: string
@@ -51,8 +54,9 @@ export function shotsForCapture(capture: Capture): CaptureShot[] {
       width: capture.width,
       height: capture.height,
       capturedOn: capture.capturedOn,
+      variant: capture.variant,
     },
-    ...(capture.previousShots ?? []),
+    ...(capture.additionalShots ?? []),
   ]
 }
 
@@ -147,6 +151,82 @@ export const captures: Capture[] = [
     kind: 'image',
   },
   {
+    id: 'lunar-eclipse-sequence',
+    title: 'Lunar Eclipse Sequence',
+    subtitle: 'Three original frames · one arc',
+    description:
+      'Three original frames trace the eclipse from near-total shadow into brighter partial phases in one sweeping composition.',
+    alt: 'Three original views of the lunar eclipse arranged from left to right in a sweeping arc.',
+    image: 'media/captures/lunar-eclipse-collage.jpg',
+    width: 1280,
+    height: 720,
+    capturedOn: '2026-08-27',
+    kind: 'image',
+  },
+  {
+    id: 'lunar-eclipse',
+    title: 'Lunar Eclipse',
+    subtitle: 'Deep partial eclipse · Earth’s shadow',
+    description:
+      'Earth’s shadow swept across the Moon, leaving a thin brilliant rim and revealing a copper-red glow near maximum eclipse.',
+    alt: 'An enhanced view of the Moon near maximum partial lunar eclipse, glowing copper red beneath a thin bright rim.',
+    image: 'media/captures/lunar-eclipse-03-enhanced.jpg',
+    width: 1280,
+    height: 720,
+    capturedOn: '2026-08-27',
+    variant: 'Enhanced',
+    additionalShots: [
+      {
+        alt: 'The original view of the Moon near maximum partial lunar eclipse, mostly in shadow beneath a thin bright rim.',
+        image: 'media/captures/lunar-eclipse-03-original.jpg',
+        width: 1280,
+        height: 720,
+        capturedOn: '2026-08-27',
+        variant: 'Original',
+      },
+      {
+        alt: 'The partially eclipsed Moon with its cratered surface brightly visible beyond Earth’s curved shadow.',
+        image: 'media/captures/lunar-eclipse-04-original.jpg',
+        width: 1280,
+        height: 720,
+        capturedOn: '2026-08-27',
+        variant: 'Original',
+      },
+      {
+        alt: 'An enhanced view of the partially eclipsed Moon with detailed craters visible along its illuminated side.',
+        image: 'media/captures/lunar-eclipse-05-enhanced.jpg',
+        width: 1280,
+        height: 720,
+        capturedOn: '2026-08-27',
+        variant: 'Enhanced',
+      },
+      {
+        alt: 'The original view of the partially eclipsed Moon with Earth’s shadow crossing its cratered surface.',
+        image: 'media/captures/lunar-eclipse-05-original.jpg',
+        width: 1280,
+        height: 720,
+        capturedOn: '2026-08-27',
+        variant: 'Original',
+      },
+    ],
+    kind: 'image',
+  },
+  {
+    id: 'lunar-eclipse-timelapse',
+    title: 'Lunar Eclipse Timelapse',
+    subtitle: 'Deep partial eclipse · time lapse',
+    description:
+      'A compressed view of the eclipse’s changing phases, from bright crescents to the copper-red glow near maximum eclipse.',
+    alt: 'The copper-red Moon near maximum partial lunar eclipse, used as the time-lapse poster image.',
+    image: 'media/captures/lunar-eclipse-03-enhanced.jpg',
+    width: 1280,
+    height: 720,
+    capturedOn: '2026-08-27',
+    poster: 'media/captures/lunar-eclipse-03-enhanced.jpg',
+    video: 'media/lunar-eclipse-timelapse.mp4',
+    kind: 'video',
+  },
+  {
     id: 'pacman',
     title: 'Pacman Nebula',
     subtitle: 'NGC 281 · Cassiopeia',
@@ -157,7 +237,7 @@ export const captures: Capture[] = [
     width: 1800,
     height: 772,
     capturedOn: '2026-08-27',
-    previousShots: [
+    additionalShots: [
       {
         alt: 'The Pacman Nebula (NGC 281): red emission clouds divided by dark dust lanes amid a dense field of stars.',
         image: 'media/captures/ngc-281.jpg',

@@ -2,11 +2,11 @@
 // served / downloaded / OpenGraph image carries the mark (a DOM overlay only
 // protects the on-screen view, not the file people can grab directly).
 //
-// Pristine originals live in `media-src/captures/` (git-ignored, kept locally)
-// and the watermarked JPEGs are written to `public/media/captures/`, which is
-// what the site publishes. Re-run with `npm run watermark` whenever the
-// originals change. Idempotent: it always sources the pristine originals, so it
-// never double-stamps.
+// Pristine JPEG/PNG originals live in `media-src/captures/` (git-ignored, kept
+// locally) and optimized, watermarked JPEGs are written to
+// `public/media/captures/`, which is what the site publishes. Re-run with
+// `npm run watermark` whenever the originals change. Idempotent: it always
+// sources the pristine originals, so it never double-stamps.
 
 import { readdir, readFile, writeFile, mkdir } from 'node:fs/promises'
 import { join, dirname } from 'node:path'
@@ -48,7 +48,9 @@ function watermarkSvg(width, height, text) {
 async function main() {
   let files
   try {
-    files = (await readdir(srcDir)).filter((name) => /\.jpe?g$/i.test(name))
+    files = (await readdir(srcDir))
+      .filter((name) => /\.(?:jpe?g|png)$/i.test(name))
+      .sort()
   } catch {
     console.error(`No source directory: ${srcDir}\nAdd the pristine originals there, then re-run.`)
     process.exit(1)
@@ -59,9 +61,23 @@ async function main() {
     process.exit(1)
   }
 
+  const outputNames = files.map((file) =>
+    file.replace(/\.png$/i, '.jpg'),
+  )
+  const normalizedOutputNames = outputNames.map((name) => name.toLowerCase())
+  const duplicateOutput = outputNames.find(
+    (_, index) => normalizedOutputNames.indexOf(normalizedOutputNames[index]) !== index,
+  )
+  if (duplicateOutput) {
+    console.error(
+      `Multiple source files would produce ${duplicateOutput}. Give each source a unique base name.`,
+    )
+    process.exit(1)
+  }
+
   await mkdir(outDir, { recursive: true })
 
-  for (const file of files) {
+  for (const [index, file] of files.entries()) {
     const input = await readFile(join(srcDir, file))
     const { width, height } = await sharp(input).metadata()
     const overlay = watermarkSvg(width, height, TEXT)
@@ -69,8 +85,8 @@ async function main() {
       .composite([{ input: overlay, top: 0, left: 0 }])
       .jpeg({ quality: 90, mozjpeg: true })
       .toBuffer()
-    await writeFile(join(outDir, file), output)
-    console.log(`  ✓ ${file}  ${width}×${height}`)
+    await writeFile(join(outDir, outputNames[index]), output)
+    console.log(`  ✓ ${file} → ${outputNames[index]}  ${width}×${height}`)
   }
 
   console.log(`\nWatermarked ${files.length} image(s) → public/media/captures/`)

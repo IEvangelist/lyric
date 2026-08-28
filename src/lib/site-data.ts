@@ -3,6 +3,7 @@ import {
   type Capture,
   type CaptureKind,
   type CaptureShot,
+  type CaptureVariant,
 } from './captures'
 
 const BASE = import.meta.env.BASE_URL
@@ -13,13 +14,13 @@ export function withBase(path: string): string {
 }
 
 export { formatCaptureDate, shotsForCapture } from './captures'
-export type { Capture, CaptureKind, CaptureShot }
+export type { Capture, CaptureKind, CaptureShot, CaptureVariant }
 
 // Resolve every relative media path to a base-aware URL for runtime use.
 export const captures: Capture[] = rawCaptures.map((capture) => ({
   ...capture,
   image: withBase(capture.image),
-  previousShots: capture.previousShots?.map((shot) => ({
+  additionalShots: capture.additionalShots?.map((shot) => ({
     ...shot,
     image: withBase(shot.image),
   })),
