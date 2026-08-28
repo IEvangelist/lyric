@@ -151,6 +151,19 @@ export const captures: Capture[] = [
     kind: 'image',
   },
   {
+    id: 'pelican',
+    title: 'Pelican Nebula',
+    subtitle: 'IC 5070 · Cygnus',
+    description:
+      'An emission nebula roughly 1,800 light-years away, its dark dust lanes and glowing hydrogen tracing the outline of a pelican in Cygnus.',
+    alt: 'The Pelican Nebula (IC 5070): faint red hydrogen clouds and dark dust lanes amid a dense field of stars.',
+    image: 'media/captures/ic-5070.jpg',
+    width: 1888,
+    height: 928,
+    capturedOn: '2026-08-27',
+    kind: 'image',
+  },
+  {
     id: 'lunar-eclipse-sequence',
     title: 'Lunar Eclipse Sequence',
     subtitle: 'Three original frames · one arc',
