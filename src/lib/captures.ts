@@ -73,6 +73,19 @@ export function formatCaptureDate(capturedOn: string): string {
 
 export const captures: Capture[] = [
   {
+    id: 'andromeda',
+    title: 'Andromeda Galaxy',
+    subtitle: 'Messier 31 · Andromeda',
+    description:
+      'The nearest major galaxy to the Milky Way, about 2.5 million light-years away, with a brilliant core, sweeping dust lanes, and two companion galaxies.',
+    alt: 'The Andromeda Galaxy (Messier 31): a bright oval core and broad spiral disk crossed by dark dust lanes amid a dense star field.',
+    image: 'media/captures/andromeda-galaxy-m31.jpg',
+    width: 1848,
+    height: 916,
+    capturedOn: '2026-08-28',
+    kind: 'image',
+  },
+  {
     id: 'lagoon',
     title: 'Lagoon Nebula',
     subtitle: 'Messier 8 · Sagittarius',
