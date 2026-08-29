@@ -155,7 +155,7 @@ export const captures: Capture[] = [
     title: 'Ring Nebula',
     subtitle: 'Messier 57 · Lyra',
     description:
-      'A planetary nebula some 2,500 light-years away — the glowing smoke ring of gas puffed off by a dying star at its center.',
+      'A planetary nebula some 2,500 light-years away. Its glowing ring is gas puffed off by a dying star at the center.',
     alt: 'The Ring Nebula (Messier 57): a glowing smoke ring of gas surrounding a dying central star.',
     image: 'media/captures/m-57.jpg',
     width: 1636,

@@ -44,7 +44,7 @@ type LightboxProps = {
 }
 
 const controlClass =
-  'grid place-items-center rounded-full border border-white/15 bg-black/35 text-white/85 shadow-lg shadow-black/20 backdrop-blur-md transition hover:bg-black/55 hover:text-white active:scale-95 focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none'
+  'grid place-items-center rounded-full border border-white/15 bg-background/70 text-white/85 shadow-lg shadow-background/40 backdrop-blur-md transition hover:bg-background/90 hover:text-white active:scale-95 focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none'
 
 function flyDelay(ms: number) {
   return { '--fly-delay': `${ms}ms` } as React.CSSProperties
@@ -124,7 +124,7 @@ export function Lightbox({
           <div className="relative flex size-full items-center justify-center">
             <video
               key={item.video}
-              className="max-h-full max-w-full bg-black object-contain sm:rounded-xl"
+              className="max-h-full max-w-full bg-background object-contain sm:rounded-xl"
               controls
               autoPlay
               muted
@@ -151,11 +151,11 @@ export function Lightbox({
 
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 z-[1] h-24 bg-gradient-to-b from-black/60 to-transparent"
+        className="pointer-events-none absolute inset-x-0 top-0 z-[1] h-24 bg-gradient-to-b from-background/70 to-transparent"
       />
 
       {item.stack && (
-        <div className="lightbox-top-left pointer-events-none absolute z-10 flex h-9 items-center gap-2 rounded-full border border-white/15 bg-black/35 px-3 text-xs font-medium text-white/85 shadow-lg shadow-black/20 backdrop-blur-md">
+        <div className="lightbox-top-left pointer-events-none absolute z-10 flex h-9 items-center gap-2 rounded-full border border-white/15 bg-background/70 px-3 text-xs font-medium text-white/85 shadow-lg shadow-background/40 backdrop-blur-md">
           <Images className="size-4" />
           <span>
             {item.stack.current} of {item.stack.total}

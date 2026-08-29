@@ -132,7 +132,7 @@ export function renderSharePage(config: SiteConfig, capture: Capture): string {
   const url = shareUrl(config, capture)
   const imageUrl = absoluteUrl(config, capture.image)
   const target = appDeepLink(config, capture)
-  const title = `${capture.title} — ${config.siteName}`
+  const title = `${capture.title} - ${config.siteName}`
   const isHttps = config.origin.startsWith('https://')
   const isVideo = capture.kind === 'video'
   const copyright = copyrightNotice()

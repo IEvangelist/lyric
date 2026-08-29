@@ -12,27 +12,33 @@ type SectionProps = {
   align?: 'center' | 'left'
 }
 
-export function Section({ id, eyebrow, title, description, children, className, align = 'center' }: SectionProps) {
+export function Section({
+  id,
+  eyebrow,
+  title,
+  description,
+  children,
+  className,
+  align = 'left',
+}: SectionProps) {
   const centered = align === 'center'
   return (
-    <section id={id} className={cn('relative scroll-mt-24 px-4 py-24 sm:py-32', className)}>
+    <section id={id} className={cn('relative scroll-mt-24 px-4 py-20 sm:py-28', className)}>
       <div className="mx-auto max-w-6xl">
         {(eyebrow || title || description) && (
-          <Reveal className={cn('mb-14 max-w-2xl', centered && 'mx-auto text-center')}>
+          <Reveal className={cn('mb-10 max-w-3xl sm:mb-14', centered && 'mx-auto text-center')}>
             {eyebrow && (
-              <p className="mb-3 text-xs font-semibold tracking-[0.25em] text-primary uppercase">
-                {eyebrow}
-              </p>
+              <p className="mb-3 text-sm font-semibold text-primary">{eyebrow}</p>
             )}
             {title && (
-              <h2 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
+              <h2 className="text-4xl font-semibold tracking-[-0.035em] text-balance sm:text-5xl">
                 {title}
               </h2>
             )}
             {description && (
               <p
                 className={cn(
-                  'mt-4 max-w-xl text-muted-foreground text-pretty',
+                  'mt-4 max-w-2xl leading-relaxed text-muted-foreground text-pretty',
                   centered && 'mx-auto',
                 )}
               >

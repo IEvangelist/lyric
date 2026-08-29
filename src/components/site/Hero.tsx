@@ -1,43 +1,68 @@
 import { Button } from '@/components/ui/button'
 import { withBase } from '@/lib/site-data'
 
-const lagoon = withBase('media/captures/lagoon-nebula-m8.jpg')
+const andromeda = withBase('media/captures/andromeda-galaxy-m31.jpg')
 
 export function Hero() {
   return (
     <section
       id="top"
-      className="relative flex min-h-[100dvh] items-center justify-center overflow-hidden px-4"
+      className="relative isolate min-h-[100dvh] overflow-hidden px-4 pt-20 pb-10 sm:pt-24 sm:pb-16"
     >
-      <div className="absolute inset-0 -z-10">
-        <img src={lagoon} alt="" aria-hidden="true" className="size-full object-cover opacity-40" />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/65 to-background" />
-      </div>
+      <div className="mx-auto grid min-h-[calc(100dvh-7.5rem)] max-w-6xl items-center gap-8 sm:min-h-[calc(100dvh-10rem)] sm:gap-12 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:gap-10 lg:gap-12">
+        <div className="max-w-xl">
+          <p className="text-sm font-semibold text-primary">Lyric Pine</p>
+          <h1 className="mt-4 text-4xl font-semibold tracking-[-0.045em] text-balance sm:text-6xl lg:text-[4rem]">
+            Chasing galaxies and gold.
+          </h1>
+          <p className="mt-6 max-w-lg text-base leading-relaxed text-pretty text-muted-foreground sm:text-lg">
+            A 14-year-old astrophotographer and Wisconsin state-level swimmer, aiming for a future
+            in astrophysics.
+          </p>
 
-      <div className="mx-auto max-w-3xl text-center">
-        <span className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary">
-          Future astrophysicist · Age 14
-        </span>
-        <h1 className="text-glow text-6xl font-semibold tracking-tight sm:text-8xl">Lyric</h1>
-        <p className="mx-auto mt-6 max-w-xl text-lg text-balance text-muted-foreground sm:text-xl">
-          Chasing galaxies and gold. A young stargazer photographing the cosmos and racing at the
-          state level.
-        </p>
-
-        <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
-          <Button size="lg" className="h-11 px-6 text-sm" nativeButton={false} render={<a href="#about" />}>
-            Meet Lyric
-          </Button>
-          <Button
-            size="lg"
-            variant="outline"
-            className="h-11 px-6 text-sm"
-            nativeButton={false}
-            render={<a href="#gallery" />}
-          >
-            See his captures
-          </Button>
+          <div className="mt-8 flex flex-wrap items-center gap-3 sm:mt-9">
+            <Button
+              size="lg"
+              className="h-11 px-6 text-sm"
+              nativeButton={false}
+              render={<a href="#gallery" />}
+            >
+              View captures
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              className="h-11 px-6 text-sm"
+              nativeButton={false}
+              render={<a href="#about" />}
+            >
+              Meet Lyric
+            </Button>
+          </div>
         </div>
+
+        <figure className="min-w-0">
+          <div className="overflow-hidden rounded-2xl border border-white/10 bg-card">
+            <img
+              src={andromeda}
+              alt="The Andromeda Galaxy, photographed by Lyric through his telescope"
+              width={1848}
+              height={916}
+              fetchPriority="high"
+              decoding="async"
+              className="w-full"
+            />
+          </div>
+          <figcaption className="mt-4 flex flex-col gap-1 px-1 text-sm sm:flex-row sm:items-end sm:justify-between sm:gap-6">
+            <div>
+              <p className="font-medium text-foreground">Andromeda Galaxy</p>
+              <p className="text-muted-foreground">Messier 31, Andromeda</p>
+            </div>
+            <time dateTime="2026-08-28" className="text-muted-foreground">
+              Captured Aug 28, 2026
+            </time>
+          </figcaption>
+        </figure>
       </div>
     </section>
   )

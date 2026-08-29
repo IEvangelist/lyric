@@ -72,14 +72,14 @@ type ShareMenuProps = {
 }
 
 const triggerClass =
-  'grid place-items-center rounded-full border border-white/15 bg-black/35 text-white/85 shadow-lg shadow-black/20 backdrop-blur-md transition hover:bg-black/55 hover:text-white active:scale-95 focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none'
+  'grid place-items-center rounded-full border border-white/15 bg-background/70 text-white/85 shadow-lg shadow-background/40 backdrop-blur-md transition hover:bg-background/90 hover:text-white active:scale-95 focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none'
 
 export function ShareMenu({ capture, open, onOpenChange }: ShareMenuProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const [copyState, setCopyState] = useState<CopyState>('idle')
 
   const shareUrl = getShareUrl(capture.id)
-  const title = `${capture.title} — Lyric`
+  const title = `${capture.title} - Lyric`
   const text = capture.description
   const origin = typeof window === 'undefined' ? '' : window.location.origin
   const imageAbs = capture.image.startsWith('http') ? capture.image : `${origin}${capture.image}`
@@ -148,7 +148,7 @@ export function ShareMenu({ capture, open, onOpenChange }: ShareMenuProps) {
           role="menu"
           aria-label={`Share ${capture.title}`}
           onClick={(event) => event.stopPropagation()}
-          className="absolute top-13 right-0 z-20 max-h-[calc(100dvh-5rem)] w-[min(18rem,calc(100vw-2rem))] origin-top-right overflow-y-auto rounded-2xl border border-white/10 bg-background/95 p-3 text-left shadow-2xl ring-1 ring-black/40 backdrop-blur-xl duration-150 animate-in fade-in-0 zoom-in-95"
+          className="absolute top-13 right-0 z-20 max-h-[calc(100dvh-5rem)] w-[min(18rem,calc(100vw-2rem))] origin-top-right overflow-y-auto rounded-2xl border border-white/10 bg-background/95 p-3 text-left shadow-2xl ring-1 ring-foreground/10 backdrop-blur-xl duration-150 animate-in fade-in-0 zoom-in-95"
         >
           <p className="px-1 pb-2 text-xs font-medium tracking-wide text-muted-foreground uppercase">
             Share this capture
@@ -218,7 +218,7 @@ export function ShareMenu({ capture, open, onOpenChange }: ShareMenuProps) {
               value={shareUrl}
               onFocus={(event) => event.currentTarget.select()}
               ref={(node) => node?.select()}
-              className="mt-1.5 w-full rounded-md border border-amber-400/30 bg-black/40 px-2 py-1.5 text-xs text-foreground/80 outline-none focus-visible:ring-2 focus-visible:ring-amber-400/40"
+              className="mt-1.5 w-full rounded-md border border-amber-400/30 bg-background/70 px-2 py-1.5 text-xs text-foreground/80 outline-none focus-visible:ring-2 focus-visible:ring-amber-400/40"
             />
           )}
         </div>

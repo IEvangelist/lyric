@@ -19,7 +19,7 @@ const outDir = join(root, 'public', 'media', 'captures')
 
 // Mirrors copyrightNotice() in src/lib/site-meta.ts. Kept inline so this
 // framework-free build script has no TypeScript import.
-const TEXT = `© ${new Date().getFullYear()}–present Lyric Pine`
+const TEXT = `© ${new Date().getFullYear()}-present Lyric Pine`
 
 function escapeXml(value) {
   return value.replace(

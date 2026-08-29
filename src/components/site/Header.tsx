@@ -31,7 +31,7 @@ export function Header() {
   return (
     <header ref={ref} className="fixed inset-x-0 top-0 z-50">
       <div className="mx-auto max-w-6xl px-4">
-        <div className="mt-3 flex items-center justify-between rounded-full border border-white/10 bg-background/55 px-4 py-2 backdrop-blur-md">
+        <div className="mt-3 flex items-center justify-between rounded-2xl border border-white/10 bg-background/75 px-4 py-2 backdrop-blur-xl">
           <a
             href="#top"
             onClick={() => setOpen(false)}
@@ -46,7 +46,7 @@ export function Header() {
               <a
                 key={link.href}
                 href={link.href}
-                className="rounded-full px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-white/5 hover:text-foreground"
+                className="rounded-lg px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-white/5 hover:text-foreground"
               >
                 {link.label}
               </a>
@@ -59,7 +59,7 @@ export function Header() {
             aria-expanded={open}
             aria-controls="mobile-menu"
             onClick={() => setOpen((value) => !value)}
-            className="grid size-9 place-items-center rounded-full text-foreground/80 transition-colors hover:bg-white/5 hover:text-foreground sm:hidden"
+            className="grid size-9 place-items-center rounded-lg text-foreground/80 transition-colors hover:bg-white/5 hover:text-foreground sm:hidden"
           >
             {open ? <X className="size-5" /> : <Menu className="size-5" />}
           </button>
@@ -68,14 +68,14 @@ export function Header() {
         {open && (
           <nav
             id="mobile-menu"
-            className="mt-2 grid rounded-3xl border border-white/10 bg-background/80 p-2 backdrop-blur-xl duration-200 animate-in fade-in-0 slide-in-from-top-2 sm:hidden"
+            className="mt-2 grid rounded-2xl border border-white/10 bg-background/90 p-2 backdrop-blur-xl duration-200 animate-in fade-in-0 slide-in-from-top-2 sm:hidden"
           >
             {links.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
                 onClick={() => setOpen(false)}
-                className="rounded-2xl px-3 py-2.5 text-sm text-muted-foreground transition-colors hover:bg-white/5 hover:text-foreground"
+                className="rounded-xl px-3 py-2.5 text-sm text-muted-foreground transition-colors hover:bg-white/5 hover:text-foreground"
               >
                 {link.label}
               </a>

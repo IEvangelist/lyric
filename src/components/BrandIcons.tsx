@@ -1,5 +1,5 @@
 // Inline brand glyphs for the share menu. Paths are from Simple Icons (CC0),
-// except LinkedIn (canonical logo path — Simple Icons no longer ships it).
+// except LinkedIn (canonical logo path; Simple Icons no longer ships it).
 // Each renders as a single-color glyph that inherits `currentColor`.
 
 type IconProps = { className?: string }
