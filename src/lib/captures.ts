@@ -73,6 +73,19 @@ export function formatCaptureDate(capturedOn: string): string {
 
 export const captures: Capture[] = [
   {
+    id: 'heart',
+    title: 'Heart Nebula',
+    subtitle: 'IC 1805 · Cassiopeia',
+    description:
+      'A heart-shaped emission nebula in Cassiopeia, glowing red as young stars illuminate surrounding clouds of hydrogen gas.',
+    alt: 'The Heart Nebula (IC 1805): faint red, heart-shaped clouds of hydrogen surrounding a bright central star cluster amid a dense star field.',
+    image: 'media/captures/ic-1805.jpg',
+    width: 1896,
+    height: 1060,
+    capturedOn: '2026-09-10',
+    kind: 'image',
+  },
+  {
     id: 'andromeda',
     title: 'Andromeda Galaxy',
     subtitle: 'Messier 31 · Andromeda',
