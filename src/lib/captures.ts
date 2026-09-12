@@ -184,9 +184,9 @@ export const captures: Capture[] = [
       'An emission nebula roughly 1,800 light-years away, its dark dust lanes and glowing hydrogen tracing the outline of a pelican in Cygnus.',
     alt: 'The Pelican Nebula (IC 5070): faint red hydrogen clouds and dark dust lanes amid a dense field of stars.',
     image: 'media/captures/ic-5070.jpg',
-    width: 1888,
-    height: 928,
-    capturedOn: '2026-08-27',
+    width: 1887,
+    height: 1055,
+    capturedOn: '2026-09-11',
     kind: 'image',
   },
   {
