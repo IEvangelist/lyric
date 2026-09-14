@@ -73,6 +73,19 @@ export function formatCaptureDate(capturedOn: string): string {
 
 export const captures: Capture[] = [
   {
+    id: 'soul',
+    title: 'Soul Nebula',
+    subtitle: 'IC 1848 · Cassiopeia',
+    description:
+      'An emission nebula in Cassiopeia, where young stars illuminate billowing clouds of hydrogen gas beside the neighboring Heart Nebula.',
+    alt: 'The Soul Nebula (IC 1848): billowing red clouds of hydrogen and dark dust lanes surrounding bright star clusters in a dense star field.',
+    image: 'media/captures/ic-1848.jpg',
+    width: 1841,
+    height: 1029,
+    capturedOn: '2026-09-13',
+    kind: 'image',
+  },
+  {
     id: 'heart',
     title: 'Heart Nebula',
     subtitle: 'IC 1805 · Cassiopeia',
