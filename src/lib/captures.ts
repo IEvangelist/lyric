@@ -73,6 +73,32 @@ export function formatCaptureDate(capturedOn: string): string {
 
 export const captures: Capture[] = [
   {
+    id: 'milky-way',
+    title: 'Milky Way',
+    subtitle: 'Galactic plane · Cygnus',
+    description:
+      'Our home galaxy seen edge-on, its dense star clouds split by dark lanes of interstellar dust across the autumn sky.',
+    alt: 'The Milky Way stretching through Cygnus: dense golden star clouds and dark dust lanes across a wide field of stars.',
+    image: 'media/captures/milky-way.jpg',
+    width: 1497,
+    height: 914,
+    capturedOn: '2026-10-04',
+    kind: 'image',
+  },
+  {
+    id: 'ic-63',
+    title: 'Ghost of Cassiopeia',
+    subtitle: 'IC 63 · Cassiopeia',
+    description:
+      'A faint reflection and emission nebula shaped by the intense radiation of nearby Gamma Cassiopeiae, glowing amid a rich field of stars.',
+    alt: 'The Ghost of Cassiopeia (IC 63): a faint purple-red nebula below brilliant Gamma Cassiopeiae in a dense star field.',
+    image: 'media/captures/ic-63.jpg',
+    width: 1819,
+    height: 1017,
+    capturedOn: '2026-10-03',
+    kind: 'image',
+  },
+  {
     id: 'soul',
     title: 'Soul Nebula',
     subtitle: 'IC 1848 · Cassiopeia',

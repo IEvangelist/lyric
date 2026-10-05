@@ -1,4 +1,5 @@
 import { StarField } from '@/components/StarField'
+import { ScrollToTop } from '@/components/ScrollToTop'
 import { Header } from '@/components/site/Header'
 import { Hero } from '@/components/site/Hero'
 import { About } from '@/components/site/About'
@@ -22,6 +23,7 @@ export default function App() {
         <Family />
       </main>
       <Footer />
+      <ScrollToTop />
     </>
   )
 }
