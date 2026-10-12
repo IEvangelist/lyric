@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { withBase } from '@/lib/site-data'
 
-const andromeda = withBase('media/captures/andromeda-galaxy-m31.jpg')
+const andromeda = withBase('media/captures/andromeda-galaxy-m31-2026-10-12.jpg')
 
 export function Hero() {
   return (
@@ -46,8 +46,8 @@ export function Hero() {
             <img
               src={andromeda}
               alt="The Andromeda Galaxy, photographed by Lyric through his telescope"
-              width={1848}
-              height={916}
+              width={1748}
+              height={977}
               fetchPriority="high"
               decoding="async"
               className="w-full"
@@ -58,8 +58,8 @@ export function Hero() {
               <p className="font-medium text-foreground">Andromeda Galaxy</p>
               <p className="text-muted-foreground">Messier 31, Andromeda</p>
             </div>
-            <time dateTime="2026-08-28" className="text-muted-foreground">
-              Captured Aug 28, 2026
+            <time dateTime="2026-10-12" className="text-muted-foreground">
+              Captured Oct 12, 2026
             </time>
           </figcaption>
         </figure>

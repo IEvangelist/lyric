@@ -78,11 +78,20 @@ export const captures: Capture[] = [
     subtitle: 'Galactic plane · Cygnus',
     description:
       'Our home galaxy seen edge-on, its dense star clouds split by dark lanes of interstellar dust across the autumn sky.',
-    alt: 'The Milky Way stretching through Cygnus: dense golden star clouds and dark dust lanes across a wide field of stars.',
-    image: 'media/captures/milky-way.jpg',
-    width: 1497,
-    height: 914,
-    capturedOn: '2026-10-04',
+    alt: 'The Milky Way: golden star clouds and branching dark dust lanes stretching through a dense field of blue and red stars.',
+    image: 'media/captures/milky-way-2026-10-11.jpg',
+    width: 1553,
+    height: 853,
+    capturedOn: '2026-10-11',
+    additionalShots: [
+      {
+        alt: 'The Milky Way stretching through Cygnus: dense golden star clouds and dark dust lanes across a wide field of stars.',
+        image: 'media/captures/milky-way.jpg',
+        width: 1497,
+        height: 914,
+        capturedOn: '2026-10-04',
+      },
+    ],
     kind: 'image',
   },
   {
@@ -130,11 +139,20 @@ export const captures: Capture[] = [
     subtitle: 'Messier 31 · Andromeda',
     description:
       'The nearest major galaxy to the Milky Way, about 2.5 million light-years away, with a brilliant core, sweeping dust lanes, and two companion galaxies.',
-    alt: 'The Andromeda Galaxy (Messier 31): a bright oval core and broad spiral disk crossed by dark dust lanes amid a dense star field.',
-    image: 'media/captures/andromeda-galaxy-m31.jpg',
-    width: 1848,
-    height: 916,
-    capturedOn: '2026-08-28',
+    alt: 'The Andromeda Galaxy (Messier 31): a luminous core and soft golden spiral disk crossed by dark dust lanes, with blue stars and two companion galaxies in a dark star field.',
+    image: 'media/captures/andromeda-galaxy-m31-2026-10-12.jpg',
+    width: 1748,
+    height: 977,
+    capturedOn: '2026-10-12',
+    additionalShots: [
+      {
+        alt: 'The Andromeda Galaxy (Messier 31): a bright oval core and broad spiral disk crossed by dark dust lanes amid a dense star field.',
+        image: 'media/captures/andromeda-galaxy-m31.jpg',
+        width: 1848,
+        height: 916,
+        capturedOn: '2026-08-28',
+      },
+    ],
     kind: 'image',
   },
   {
