@@ -73,6 +73,19 @@ export function formatCaptureDate(capturedOn: string): string {
 
 export const captures: Capture[] = [
   {
+    id: 'wizard',
+    title: 'Wizard Nebula',
+    subtitle: 'NGC 7380 · Cepheus',
+    description:
+      'An emission nebula in Cepheus, where an open star cluster sculpts glowing clouds of hydrogen gas and dark dust into a wizard-like silhouette.',
+    alt: 'The Wizard Nebula (NGC 7380): a red-orange emission nebula with dark dust lanes and a pink glow at its center, surrounded by a dense field of stars.',
+    image: 'media/captures/ngc-7380.jpg',
+    width: 1896,
+    height: 1060,
+    capturedOn: '2026-10-21',
+    kind: 'image',
+  },
+  {
     id: 'milky-way',
     title: 'Milky Way',
     subtitle: 'Galactic plane · Cygnus',
