@@ -73,6 +73,19 @@ export function formatCaptureDate(capturedOn: string): string {
 
 export const captures: Capture[] = [
   {
+    id: 'iris',
+    title: 'Iris Nebula',
+    subtitle: 'NGC 7023 · Cepheus',
+    description:
+      'A reflection nebula about 1,300 light-years away, where a young star lights up surrounding dust in delicate blue, like the petals of a flower.',
+    alt: 'The Iris Nebula (NGC 7023): a small blue reflection nebula around a bright central star, with dark dust lanes in a dense field of stars.',
+    image: 'media/captures/ngc-7023.jpg',
+    width: 1896,
+    height: 1060,
+    capturedOn: '2026-10-22',
+    kind: 'image',
+  },
+  {
     id: 'wizard',
     title: 'Wizard Nebula',
     subtitle: 'NGC 7380 · Cepheus',
